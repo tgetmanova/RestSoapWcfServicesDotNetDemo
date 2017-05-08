@@ -3,9 +3,9 @@
 namespace UserRepositoryServiceTests
 {
     /// <summary>
-    /// The tests against UserRepository WCF service
+    /// The tests against UserInfoProvider WCF service
     /// </summary>
-    public class UserRepositoryServiceTests
+    public class UserInfoProviderServiceTests
     {
         [Fact]
         public void TestMethod1()
