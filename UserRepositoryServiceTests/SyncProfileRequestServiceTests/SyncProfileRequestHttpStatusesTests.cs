@@ -29,8 +29,8 @@ namespace UserRepositoryServiceTests
 
             var newRequest = new SyncProfileRequest
             {
-                Locale = countryIsoCode,
-                CountryIsoCode = "FI",
+                Locale = "FI",
+                CountryIsoCode = countryIsoCode,
                 UserId = Guid.NewGuid(),
                 RequestId = Guid.NewGuid(),
                 AdvertisingOptIn = false,

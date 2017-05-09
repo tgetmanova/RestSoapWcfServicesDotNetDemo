@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Configuration;
+using System.IO;
 
 namespace UserRepositoryServiceTests
 {
@@ -46,6 +48,12 @@ namespace UserRepositoryServiceTests
         public static bool IsDateTimeInTheExpectedRange(DateTime dateToCheck, DateTime startDate, DateTime endDate)
         {
             return dateToCheck >= startDate && dateToCheck < endDate;
+        }
+
+        internal static string[] GetLogEntries()
+        {
+            var pathToFile = ConfigurationManager.AppSettings["PathToLogFile"];
+            return File.ReadAllLines(pathToFile);
         }
     }
 }
