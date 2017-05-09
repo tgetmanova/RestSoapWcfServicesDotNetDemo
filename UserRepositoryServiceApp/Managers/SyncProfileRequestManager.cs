@@ -91,8 +91,8 @@ namespace UserRepositoryServiceApp.Managers
             {
                 UserId = syncProfileRequest.UserId,
                 RequestId = Guid.NewGuid(),
-                Locale = syncProfileRequest.Locale,
-                CountryIsoCode = syncProfileRequest.CountryIsoCode,
+                Locale = syncProfileRequest.Locale?.Trim(),
+                CountryIsoCode = syncProfileRequest.CountryIsoCode?.Trim(),
                 AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn,
                 DateModified = DateTime.UtcNow
             };
@@ -112,8 +112,8 @@ namespace UserRepositoryServiceApp.Managers
             {
                 UserId = syncProfileRequest.UserId,
                 RequestId = Guid.NewGuid(),
-                Locale = syncProfileRequest.Locale,
-                CountryIsoCode = syncProfileRequest.CountryIsoCode,
+                Locale = syncProfileRequest.Locale?.Trim(),
+                CountryIsoCode = syncProfileRequest.CountryIsoCode?.Trim(),
                 AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn,
                 DateModified = DateTime.UtcNow
             };
@@ -130,8 +130,8 @@ namespace UserRepositoryServiceApp.Managers
             return new SyncProfileRequest
             {
                 UserId = syncProfileRequest.UserId,
-                Locale = syncProfileRequest.Locale.Trim(),
-                CountryIsoCode = syncProfileRequest.CountryIsoCode.Trim(),
+                Locale = syncProfileRequest.Locale?.Trim(),
+                CountryIsoCode = syncProfileRequest.CountryIsoCode?.Trim(),
                 AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn
             };
         }
@@ -174,7 +174,9 @@ namespace UserRepositoryServiceApp.Managers
         /// <returns>Whether country ISO is valid. </returns>
         private bool IsCountryIsoCodeValid(string countryIsoCode)
         {
-            return countryIsoCode.All(char.IsLetter) && countryIsoCode.Length == 2;
+            return countryIsoCode != null 
+                && countryIsoCode.All(char.IsLetter)
+                && countryIsoCode.Length == 2;
         }      
 
         /// <summary>
