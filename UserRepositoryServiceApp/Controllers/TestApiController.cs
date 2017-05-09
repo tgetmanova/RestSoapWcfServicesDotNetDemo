@@ -32,10 +32,10 @@ namespace UserRepositoryService.Controllers
             return this.syncProfileRequestManager.GetSyncProfileRequestById(Id);
         }
         
-        public void Post([FromBody]SyncProfileRequest syncProfileRequest)
+        public SyncProfileRequest Post([FromBody]SyncProfileRequest syncProfileRequest)
         {
             this.syncProfileRequestManager.ValidateSyncProfileRequest(syncProfileRequest);
-            this.syncProfileRequestManager.CreateSyncProfileRequest(syncProfileRequest);           
+            return this.syncProfileRequestManager.CreateSyncProfileRequest(syncProfileRequest);           
         }
         
         public void Put(Guid id, [FromBody]SyncProfileRequest syncProfileRequest)

@@ -85,7 +85,7 @@ namespace UserRepositoryServiceApp.Managers
         /// Creates the synchronize profile request.
         /// </summary>
         /// <param name="syncProfileRequest">The synchronize profile request.</param>
-        internal void CreateSyncProfileRequest(SyncProfileRequest syncProfileRequest)
+        internal SyncProfileRequest CreateSyncProfileRequest(SyncProfileRequest syncProfileRequest)
         {
             var syncProfileRequestToCreate = new SyncProfileRequest
             {
@@ -97,7 +97,9 @@ namespace UserRepositoryServiceApp.Managers
                 DateModified = DateTime.UtcNow
             };
 
-            this.userRepository.AddUser(UserSyncRequestConverter.ToUserEntity(syncProfileRequestToCreate));            
+            this.userRepository.AddUser(UserSyncRequestConverter.ToUserEntity(syncProfileRequestToCreate));
+
+            return syncProfileRequestToCreate;
         }
 
         internal void UpdateSyncProfileRequest(SyncProfileRequest syncProfileRequest)
