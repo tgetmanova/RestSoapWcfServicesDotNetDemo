@@ -42,6 +42,7 @@
       <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
@@ -71,9 +72,14 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Proxy\UserRepositoryServiceProxy.cs" />
-    <Compile Include="SyncProfileRequestServiceTests.cs" />
-    <Compile Include="UserInfoProviderServiceTests.cs" />
+    <Compile Include="SyncProfileRequestServiceTests\SyncProfileRequestLoggingTests.cs" />
+    <Compile Include="SyncProfileRequestServiceTests\SyncProfileRequestHttpStatusesTests.cs" />
+    <Compile Include="SyncProfileRequestServiceTests\SyncProfileRequestRepositoryTests.cs" />
+    <Compile Include="TestRunConfiguration.cs" />
+    <Compile Include="TestUtils.cs" />
+    <Compile Include="UserInfoProviderServiceTests\UserInfoProviderServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserRepositoryUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
