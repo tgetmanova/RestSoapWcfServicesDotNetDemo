@@ -50,10 +50,23 @@ namespace UserRepositoryServiceTests
             return dateToCheck >= startDate && dateToCheck < endDate;
         }
 
-        internal static string[] GetLogEntries()
+        /// <summary>
+        /// Gets the log entries.
+        /// </summary>
+        /// <returns>File log read lines. </returns>
+        internal static IEnumerable<string> GetLogEntries()
         {
             var pathToFile = ConfigurationManager.AppSettings["PathToLogFile"];
-            return File.ReadAllLines(pathToFile);
+           
+            using (var fileStream = File.Open(pathToFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (StreamReader reader = new StreamReader(fileStream))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    yield return line;
+                }
+            }
         }
     }
 }

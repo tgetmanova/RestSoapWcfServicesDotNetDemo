@@ -60,9 +60,9 @@ namespace UserRepositoryServiceTests
 
             IRestResponse<SyncProfileRequest> response = client.Execute<SyncProfileRequest>(request);
 
-            if (response.ErrorException != null)
+            if (response.ErrorException != null || response.Data.UserId == Guid.Empty)
             {
-                throw new Exception($"cannot create new sync request: {response.ErrorMessage}");
+                throw new Exception($"cannot create new sync request: {response.Content}");
             }
 
             return response.Data;

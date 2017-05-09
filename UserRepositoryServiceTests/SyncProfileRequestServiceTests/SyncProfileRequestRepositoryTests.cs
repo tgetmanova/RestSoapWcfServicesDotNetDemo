@@ -179,6 +179,7 @@ namespace UserRepositoryServiceTests
         }
 
         [Fact]
+        [Trait("Category", "SyncProfileRequestService")]
         public void SyncProfileRequestService_ValidSynRequest_NonExistingUser_ShouldAddUserToRepository()
         {
             var client = TestRunConfiguration.GetSyncProfileRequestApiRestClient();
@@ -205,6 +206,7 @@ namespace UserRepositoryServiceTests
         }
 
         [Fact]
+        [Trait("Category", "SyncProfileRequestService")]
         public void SyncProfileRequestService_ValidSynRequest_ExistingUser_ShouldUpdateUserInRepository()
         {
             var client = TestRunConfiguration.GetSyncProfileRequestApiRestClient();
@@ -248,6 +250,7 @@ namespace UserRepositoryServiceTests
         }
 
         [Theory]
+        [Trait("Category", "SyncProfileRequestService")]
         [InlineData(" RU ", "RU", false)]
         [InlineData("RO", " RO ", true)]
         [InlineData(" KO", "KO ", null)]
@@ -285,6 +288,7 @@ namespace UserRepositoryServiceTests
         }
 
         [Theory]
+        [Trait("Category", "SyncProfileRequestService")]
         [InlineData(" RU ", "RU", false)]
         [InlineData("RO", " RO ", true)]
         [InlineData(" KO", "KO ", null)]
@@ -297,7 +301,7 @@ namespace UserRepositoryServiceTests
             var expectedRequest = new SyncProfileRequest
             {
                 CountryIsoCode = "US",
-                Locale = "US",
+                Locale = "EN-GB",
                 AdvertisingOptIn = false,
                 UserId = expectedUserId
             };

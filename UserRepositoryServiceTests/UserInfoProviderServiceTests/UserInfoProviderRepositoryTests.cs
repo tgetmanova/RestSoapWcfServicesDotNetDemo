@@ -35,6 +35,7 @@ namespace UserRepositoryServiceTests
         }
 
         [Fact]
+        [Trait("Category", "UserInfoProviderService")]
         [Trait("Category", "Negative")]
         public void UserInfoProviderService_NonExistingUser_ShouldThrow_UserNotFoundFault()
         {
@@ -49,6 +50,7 @@ namespace UserRepositoryServiceTests
         }
 
         [Fact]
+        [Trait("Category", "UserInfoProviderService")]
         public void UserInfoProviderService_ExistingUser_ShouldRetrieveUserInfoByItsGuid()
         {
             var expectedExistingUser = UserRepositoryUtils.GetCurrentSyncProfileRequests().FirstOrDefault();
@@ -58,6 +60,7 @@ namespace UserRepositoryServiceTests
             }
 
             var userInfoRetrieved = this.providerServiceClient.GetUserInfo(expectedExistingUser.UserId);
+            Assert.NotNull(userInfoRetrieved);
 
             TestUtils.AggregateAssertions(
                  () => Assert.Equal(expectedExistingUser.CountryIsoCode, userInfoRetrieved.CountryIsoCode),
@@ -67,7 +70,8 @@ namespace UserRepositoryServiceTests
                  () => Assert.Equal(expectedExistingUser.DateModified.ToUniversalTime(),userInfoRetrieved.DateModified.ToUniversalTime()));
         }
 
-        [Theory]
+        [Theory]        
+        [Trait("Category", "UserInfoProviderService")]
         [InlineData("LV", "LV", false)]
         [InlineData("LT", "LT", true)]
         [InlineData("PL", "PL", null)]
@@ -82,8 +86,10 @@ namespace UserRepositoryServiceTests
                 AdvertisingOptIn = advertisingOptIn
             };
             var expectedNewlyCreatedUser = UserRepositoryUtils.CreateSyncProfileRequest(expectedNewRequest);
+            Assert.NotNull(expectedNewlyCreatedUser);
 
             var userInfoRetrieved = this.providerServiceClient.GetUserInfo(expectedNewlyCreatedUser.UserId);
+            Assert.NotNull(userInfoRetrieved);
 
             TestUtils.AggregateAssertions(
                  () => Assert.Equal(expectedNewlyCreatedUser.CountryIsoCode, userInfoRetrieved.CountryIsoCode),
