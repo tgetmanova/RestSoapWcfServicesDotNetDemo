@@ -21,7 +21,7 @@ namespace UserRepositoryServiceApp
             {
                 host.Open();
 
-                Console.WriteLine("Services have been launched. Press any key to exit");
+                Console.WriteLine($"Services have been launched at {baseAddress}. Press any key to exit");
                 Console.ReadKey();
 
                 host.Close();

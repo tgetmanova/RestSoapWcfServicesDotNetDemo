@@ -6,6 +6,7 @@ using UserRepositoryServiceApp.Models;
 using UserRepositoryServiceApp.Faults;
 using UserRepositoryServiceApp.Managers;
 using UserRepositoryServiceApp.Data.Converters;
+using UserRepositoryServiceApp.Logging;
 
 namespace UserRepositoryServiceApp.Services
 {
@@ -28,6 +29,7 @@ namespace UserRepositoryServiceApp.Services
         /// <inheritdoc />
         public UserInfo GetUserInfo(Guid userId)
         {
+            ServiceLogger.Logger.Information($"Attempt to retrieve User {userId}");
             SyncProfileRequest user = null;
 
             try
@@ -42,9 +44,11 @@ namespace UserRepositoryServiceApp.Services
                     Id = userId
                 };
 
+                ServiceLogger.Logger.Error($"User {userId} not found");
                 throw new FaultException<UserNotFoundFault>(userNotFound);
             }
 
+            ServiceLogger.Logger.Information($"User {userId} found");
             return UserSyncRequestConverter.ToUserInfo(user);
         }
     }

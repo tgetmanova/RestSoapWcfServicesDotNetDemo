@@ -69,5 +69,16 @@ namespace UserRepositoryServiceApp
 
             users.Remove(user);
         }
+
+        public void UpdateUser(UserEntity userEntity)
+        {
+            var user = users.FirstOrDefault(u => u.UserId == userEntity.UserId);
+            if (user == null)
+            {
+                throw new InvalidOperationException($"Cannot find user wit ID: {userEntity.UserId}");
+            }
+
+            users[users.IndexOf(user)] = userEntity;
+        }
     }
 }

@@ -71,63 +71,58 @@ namespace UserRepositoryServiceApp.Managers
         }
 
         /// <summary>
+        /// Validates the already existing user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Whether user already exists. </returns>
+        internal bool DoesUserExistInRepository(Guid userId)
+        {
+            var users = this.userRepository.GetUsers();
+            return users.Any(item => item.UserId.Equals(userId));
+        }
+
+        /// <summary>
         /// Creates the synchronize profile request.
         /// </summary>
         /// <param name="syncProfileRequest">The synchronize profile request.</param>
         internal void CreateSyncProfileRequest(SyncProfileRequest syncProfileRequest)
         {
-            this.ValidateNewSyncProfileRequest(syncProfileRequest);
-            this.userRepository.AddUser(UserSyncRequestConverter.ToUserEntity(syncProfileRequest));
+            var syncProfileRequestToCreate = new SyncProfileRequest
+            {
+                UserId = syncProfileRequest.UserId,
+                RequestId = Guid.NewGuid(),
+                Locale = syncProfileRequest.Locale,
+                CountryIsoCode = syncProfileRequest.CountryIsoCode,
+                AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn,
+                DateModified = DateTime.UtcNow
+            };
+
+            this.userRepository.AddUser(UserSyncRequestConverter.ToUserEntity(syncProfileRequestToCreate));            
         }
 
         internal void UpdateSyncProfileRequest(SyncProfileRequest syncProfileRequest)
         {
-            
-        }
-
-        internal void ValidateExistingSyncProfileRequest(SyncProfileRequest request)
-        {
-            var validations = new StringBuilder();
-
-            if (this.DoesUserAlreayExist(request.UserId))
+            var syncProfileRequestToUpdate = new SyncProfileRequest
             {
-                validations.Append($"User {request.UserId} not found");
-                validations.AppendLine();
-            }
-
-            if (!this.IsCountryIsoCodeValid(request.CountryIsoCode))
-            {
-                validations.Append($"{request.CountryIsoCode} is incorrect ISO code");
-                validations.AppendLine();
-            }
-
-            if (!this.IsLocaleStringValid(request.Locale))
-            {
-                validations.Append($"{request.Locale} is incorrect locale format");
-                validations.AppendLine();
-            }
-
-            var validationsString = validations.ToString();
-            if (!string.IsNullOrEmpty(validationsString))
-            {
-                throw new InvalidOperationException($"Cannot update sync profile request: {Environment.NewLine} {validationsString}");
-            }
+                UserId = syncProfileRequest.UserId,
+                RequestId = Guid.NewGuid(),
+                Locale = syncProfileRequest.Locale,
+                CountryIsoCode = syncProfileRequest.CountryIsoCode,
+                AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn,
+                DateModified = DateTime.UtcNow
+            };
+            this.userRepository.UpdateUser(UserSyncRequestConverter.ToUserEntity(syncProfileRequestToUpdate));
         }
 
         /// <summary>
         /// Validates the new synchronize profile request.
         /// </summary>
         /// <param name="request">The request.</param>
-        /// <exception cref="System.InvalidOperationException">The New Sync Profile request is invalid. </exception>
-        internal void ValidateNewSyncProfileRequest(SyncProfileRequest request)
+        /// <exception cref="System.InvalidOperationException">The Sync Profile request is invalid. </exception>
+        internal void ValidateSyncProfileRequest(SyncProfileRequest request)
         {
             var validations = new StringBuilder();
 
-            if (!this.DoesUserAlreayExist(request.UserId))
-            {
-                validations.Append($"User {request.UserId} already added to repository");
-                validations.AppendLine();
-            }
             if (!this.IsCountryIsoCodeValid(request.CountryIsoCode))
             {
                 validations.Append($"{request.CountryIsoCode} is incorrect ISO code");
@@ -143,8 +138,13 @@ namespace UserRepositoryServiceApp.Managers
             var validationsString = validations.ToString();
             if (!string.IsNullOrEmpty(validationsString))
             {
-                throw new InvalidOperationException($"The New Sync Profile request is invalid: {Environment.NewLine} {validationsString}");
+                throw new ArgumentException($"The Sync Profile request is invalid: {Environment.NewLine} {validationsString}");
             }
+        }
+
+        internal void DeleteSyncProfileRequest(Guid userId)
+        {
+            this.userRepository.DeleteUser(userId);
         }
 
         /// <summary>
@@ -155,18 +155,7 @@ namespace UserRepositoryServiceApp.Managers
         private bool IsCountryIsoCodeValid(string countryIsoCode)
         {
             return countryIsoCode.All(char.IsLetter) && countryIsoCode.Length == 2;
-        }
-
-        /// <summary>
-        /// Validates the already existing user identifier.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <returns>Whether user already exists. </returns>
-        private bool DoesUserAlreayExist(Guid userId)
-        {
-            var usersSyncPrfileRequests = this.userRepository.GetUsers();
-            return !usersSyncPrfileRequests.Any(item => item.UserId == userId);
-        }
+        }      
 
         /// <summary>
         /// Validates the locale.
@@ -175,7 +164,7 @@ namespace UserRepositoryServiceApp.Managers
         /// <returns>Whether locale is valid. </returns>
         private bool IsLocaleStringValid(string locale)
         {
-            return CultureInfo.GetCultures(CultureTypes.AllCultures).Any(ci => ci.Name == locale);
+            return CultureInfo.GetCultures(CultureTypes.AllCultures).Any(ci => ci.Name.Equals(locale, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

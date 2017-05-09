@@ -31,5 +31,10 @@ namespace UserRepositoryServiceApp
             //// Here we should implement some logic for data removal with files of certain type in file system.
             throw new NotImplementedException();
         }
+
+        public void UpdateUser(UserEntity userEntity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

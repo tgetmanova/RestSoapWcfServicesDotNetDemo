@@ -31,5 +31,10 @@ namespace UserRepositoryServiceApp
             //// Here we should implement some logic for data removal from data base.
             throw new NotImplementedException();
         }
+
+        public void UpdateUser(UserEntity userEntity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

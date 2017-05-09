@@ -58,6 +58,12 @@
       <HintPath>..\packages\Serilog.2.4.0\lib\net45\Serilog.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Serilog.Settings.AppSettings, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Settings.AppSettings.2.1.0\lib\net45\Serilog.Settings.AppSettings.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.File.3.2.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -83,13 +89,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\TestApiController.cs" />
     <Compile Include="Controllers\SyncProfileRequestController.cs" />
     <Compile Include="AppStartup.cs" />
     <Compile Include="Data\Converters\UserSyncRequestConverter.cs" />
     <Compile Include="Data\DTO\UserInfo.cs" />
     <Compile Include="Data\Entities\UserEntity.cs" />
     <Compile Include="Faults\UserNotFoundFault.cs" />
-    <Compile Include="Logging\FileLogger.cs" />
+    <Compile Include="Logging\ServiceLogger.cs" />
     <Compile Include="Managers\SyncProfileRequestManager.cs" />
     <Compile Include="Models\MyAccountRequestBase.cs" />
     <Compile Include="Models\SyncProfileRequest.cs" />
@@ -107,7 +114,9 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
