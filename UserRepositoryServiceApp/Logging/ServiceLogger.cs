@@ -5,11 +5,20 @@ using Serilog.Core;
 
 namespace UserRepositoryServiceApp.Logging
 {
-    static class ServiceLogger
+    /// <summary>
+    /// Service logger.
+    /// </summary>
+    internal static class ServiceLogger
     {
+        /// <summary>
+        /// The logger
+        /// </summary>
         private static Lazy<Logger> logger = new Lazy<Logger>(() => new LoggerConfiguration().ReadFrom.AppSettings().CreateLogger());
 
-        public static Logger Logger
+        /// <summary>
+        /// Gets the logger.
+        /// </summary>
+        internal static Logger Logger
         {
             get
             {
