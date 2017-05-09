@@ -32,6 +32,7 @@ namespace UserRepositoryService.Controllers
             {
                 this.syncProfileRequestManager.ValidateSyncProfileRequest(trimmedSyncProfileRequest);
             }
+
             catch(ArgumentException exception)
             {
                 ServiceLogger.Logger.Error($"User {trimmedSyncProfileRequest.UserId}: {exception.Message}");
@@ -44,10 +45,12 @@ namespace UserRepositoryService.Controllers
                 ServiceLogger.Logger.Information($"User {trimmedSyncProfileRequest.UserId} has been modified successfully");
                 return new HttpResponseMessage(HttpStatusCode.NoContent);
             }
-
-            this.syncProfileRequestManager.CreateSyncProfileRequest(trimmedSyncProfileRequest);
-            ServiceLogger.Logger.Information($"User {trimmedSyncProfileRequest.UserId} has been created successfully");
-            return new HttpResponseMessage(HttpStatusCode.Created);
+            else
+            {
+                this.syncProfileRequestManager.CreateSyncProfileRequest(trimmedSyncProfileRequest);
+                ServiceLogger.Logger.Information($"User {trimmedSyncProfileRequest.UserId} has been created successfully");
+                return new HttpResponseMessage(HttpStatusCode.Created);
+            }          
         }
     }
 }
