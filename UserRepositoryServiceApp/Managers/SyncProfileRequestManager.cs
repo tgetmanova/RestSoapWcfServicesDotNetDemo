@@ -91,7 +91,7 @@ namespace UserRepositoryServiceApp.Managers
             {
                 UserId = syncProfileRequest.UserId,
                 RequestId = Guid.NewGuid(),
-                Locale = syncProfileRequest.Locale,
+                Locale = syncProfileRequest.Locale.Trim(),
                 CountryIsoCode = syncProfileRequest.CountryIsoCode,
                 AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn,
                 DateModified = DateTime.UtcNow
@@ -106,7 +106,7 @@ namespace UserRepositoryServiceApp.Managers
             {
                 UserId = syncProfileRequest.UserId,
                 RequestId = Guid.NewGuid(),
-                Locale = syncProfileRequest.Locale,
+                Locale = syncProfileRequest.Locale.Trim(),
                 CountryIsoCode = syncProfileRequest.CountryIsoCode,
                 AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn,
                 DateModified = DateTime.UtcNow
