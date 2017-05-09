@@ -9,6 +9,9 @@ using UserRepositoryServiceApp.Models;
 
 namespace UserRepositoryServiceTests
 {
+    /// <summary>
+    /// Sync profile requests tests that verify HTTP statuses returned by service.
+    /// </summary>
     public class SyncProfileRequestHttpStatusesTests
     {   
         [Theory]

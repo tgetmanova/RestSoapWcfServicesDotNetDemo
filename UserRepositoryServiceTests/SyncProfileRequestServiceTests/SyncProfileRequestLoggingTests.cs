@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System;
-
-using Xunit;
+﻿using System;
 
 using RestSharp;
 
@@ -9,6 +6,9 @@ using UserRepositoryServiceApp.Models;
 
 namespace UserRepositoryServiceTests
 {
+    /// <summary>
+    /// Sync profile requests tests that verify logging logic of service.
+    /// </summary>
     public class SyncProfileRequestLoggingTests
     {  
         //[Theory]

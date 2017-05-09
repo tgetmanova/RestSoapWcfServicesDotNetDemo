@@ -8,6 +8,9 @@ using UserRepositoryServiceApp.Models;
 
 namespace UserRepositoryServiceTests
 {
+    /// <summary>
+    /// Sync profile requests tests that verify users' existence in repository and their properties.
+    /// </summary>
     public class SyncProfileRequestRepositoryTests
     {
         [Theory]

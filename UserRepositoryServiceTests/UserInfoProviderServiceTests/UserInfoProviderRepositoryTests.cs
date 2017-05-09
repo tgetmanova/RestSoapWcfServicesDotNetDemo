@@ -9,9 +9,9 @@ using UserRepositoryServiceApp.Models;
 namespace UserRepositoryServiceTests
 {
     /// <summary>
-    /// The tests against UserInfoProvider WCF service
+    /// The tests against UserInfoProvider WCF service that verify user info presented in repository.
     /// </summary>
-    public class UserInfoProviderServiceTests : IDisposable
+    public class UserInfoProviderRepositoryTests : IDisposable
     {
         /// <summary>
         /// The provider service client
@@ -21,7 +21,7 @@ namespace UserRepositoryServiceTests
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInfoProviderServiceTests"/> class.
         /// </summary>
-        public UserInfoProviderServiceTests()
+        public UserInfoProviderRepositoryTests()
         {
             this.providerServiceClient = new UserInfoProviderServiceClient();
         }
@@ -51,20 +51,20 @@ namespace UserRepositoryServiceTests
         [Fact]
         public void UserInfoProviderService_ExistingUser_ShouldRetrieveUserInfoByItsGuid()
         {
-            var existingUser = UserRepositoryUtils.GetCurrentSyncProfileRequests().FirstOrDefault();
-            if (existingUser == null)
+            var expectedExistingUser = UserRepositoryUtils.GetCurrentSyncProfileRequests().FirstOrDefault();
+            if (expectedExistingUser == null)
             {
                 throw new Xunit.Sdk.XunitException("Precondition failed: there are no users to retrieve from repository");
             }
 
-            var userInfoRetrieved = this.providerServiceClient.GetUserInfo(existingUser.UserId);
+            var userInfoRetrieved = this.providerServiceClient.GetUserInfo(expectedExistingUser.UserId);
 
             TestUtils.AggregateAssertions(
-                 () => Assert.Equal(existingUser.CountryIsoCode, userInfoRetrieved.CountryIsoCode),
-                 () => Assert.Equal(existingUser.Locale, userInfoRetrieved.Locale),
-                 () => Assert.Equal(existingUser.AdvertisingOptIn, userInfoRetrieved.AdvertisingOptIn),
-                 () => Assert.Equal(existingUser.UserId, userInfoRetrieved.UserId),
-                 () => Assert.Equal(existingUser.DateModified.ToUniversalTime(),userInfoRetrieved.DateModified.ToUniversalTime()));
+                 () => Assert.Equal(expectedExistingUser.CountryIsoCode, userInfoRetrieved.CountryIsoCode),
+                 () => Assert.Equal(expectedExistingUser.Locale, userInfoRetrieved.Locale),
+                 () => Assert.Equal(expectedExistingUser.AdvertisingOptIn, userInfoRetrieved.AdvertisingOptIn),
+                 () => Assert.Equal(expectedExistingUser.UserId, userInfoRetrieved.UserId),
+                 () => Assert.Equal(expectedExistingUser.DateModified.ToUniversalTime(),userInfoRetrieved.DateModified.ToUniversalTime()));
         }
 
         [Theory]
@@ -74,23 +74,23 @@ namespace UserRepositoryServiceTests
         public void UserInfoProviderService_NewlyCreatedUser_ShouldRetrieveUserInfoByItsGuid(string locale, string countryIsoCode, bool? advertisingOptIn)
         {
             var userId = Guid.NewGuid();
-            var newRequest = new SyncProfileRequest
+            var expectedNewRequest = new SyncProfileRequest
             {
                 Locale = locale,
                 CountryIsoCode = countryIsoCode,
                 UserId = userId,
                 AdvertisingOptIn = advertisingOptIn
             };
-            var newlyCreatedUser = UserRepositoryUtils.CreateSyncProfileRequest(newRequest);
+            var expectedNewlyCreatedUser = UserRepositoryUtils.CreateSyncProfileRequest(expectedNewRequest);
 
-            var userInfoRetrieved = this.providerServiceClient.GetUserInfo(newlyCreatedUser.UserId);
+            var userInfoRetrieved = this.providerServiceClient.GetUserInfo(expectedNewlyCreatedUser.UserId);
 
             TestUtils.AggregateAssertions(
-                 () => Assert.Equal(newlyCreatedUser.CountryIsoCode, userInfoRetrieved.CountryIsoCode),
-                 () => Assert.Equal(newlyCreatedUser.Locale, userInfoRetrieved.Locale),
-                 () => Assert.Equal(newlyCreatedUser.AdvertisingOptIn, userInfoRetrieved.AdvertisingOptIn),
-                 () => Assert.Equal(newlyCreatedUser.UserId, userInfoRetrieved.UserId),
-                 () => Assert.Equal(newlyCreatedUser.DateModified.ToUniversalTime(), userInfoRetrieved.DateModified.ToUniversalTime()));
+                 () => Assert.Equal(expectedNewlyCreatedUser.CountryIsoCode, userInfoRetrieved.CountryIsoCode),
+                 () => Assert.Equal(expectedNewlyCreatedUser.Locale, userInfoRetrieved.Locale),
+                 () => Assert.Equal(expectedNewlyCreatedUser.AdvertisingOptIn, userInfoRetrieved.AdvertisingOptIn),
+                 () => Assert.Equal(expectedNewlyCreatedUser.UserId, userInfoRetrieved.UserId),
+                 () => Assert.Equal(expectedNewlyCreatedUser.DateModified.ToUniversalTime(), userInfoRetrieved.DateModified.ToUniversalTime()));
         }
     }
 }

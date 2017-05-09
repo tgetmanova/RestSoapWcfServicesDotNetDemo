@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Xunit;
-
 namespace UserRepositoryServiceTests
 {
     /// <summary>
@@ -38,6 +36,13 @@ namespace UserRepositoryServiceTests
             }
         }
 
+        /// <summary>
+        /// Determines whether [is date time in the expected range] [the specified date to check].
+        /// </summary>
+        /// <param name="dateToCheck">The date to check.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <returns> <c>true</c> if [is date time in the expected range] [the specified date to check]; otherwise, <c>false</c>. /// </returns>
         public static bool IsDateTimeInTheExpectedRange(DateTime dateToCheck, DateTime startDate, DateTime endDate)
         {
             return dateToCheck >= startDate && dateToCheck < endDate;
