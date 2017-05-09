@@ -70,6 +70,7 @@ namespace UserRepositoryServiceApp
             users.Remove(user);
         }
 
+        /// <inheritdoc />
         public void UpdateUser(UserEntity userEntity)
         {
             var user = users.FirstOrDefault(u => u.UserId == userEntity.UserId);

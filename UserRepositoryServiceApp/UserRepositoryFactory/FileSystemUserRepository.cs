@@ -32,6 +32,7 @@ namespace UserRepositoryServiceApp
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public void UpdateUser(UserEntity userEntity)
         {
             throw new NotImplementedException();

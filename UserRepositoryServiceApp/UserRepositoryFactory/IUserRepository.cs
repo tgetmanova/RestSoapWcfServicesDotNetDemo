@@ -26,7 +26,9 @@ namespace UserRepositoryServiceApp
         /// </summary>
         void DeleteUser(Guid userId);
 
-
+        /// <summary>
+        /// Updates the user.
+        /// </summary>
         void UpdateUser(UserEntity userEntity);
     }
 }
