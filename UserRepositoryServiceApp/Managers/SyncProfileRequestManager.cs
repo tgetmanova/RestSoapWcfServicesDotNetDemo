@@ -166,6 +166,10 @@ namespace UserRepositoryServiceApp.Managers
         /// <returns>Whether locale is valid. </returns>
         private bool IsLocaleStringValid(string locale)
         {
+            if (string.IsNullOrEmpty(locale))
+            {
+                return false;
+            }
             return CultureInfo.GetCultures(CultureTypes.AllCultures).Any(ci => ci.Name.Equals(locale, StringComparison.OrdinalIgnoreCase));
         }
     }
