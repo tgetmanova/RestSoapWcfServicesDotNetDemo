@@ -4,7 +4,7 @@ using System.Linq;
 using System.Configuration;
 using System.IO;
 
-namespace UserRepositoryServiceTests
+namespace UserRepositoryServiceTests.Utils
 {
     /// <summary>
     /// Test Util methods.

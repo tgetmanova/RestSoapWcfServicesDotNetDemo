@@ -5,6 +5,7 @@ using Xunit;
 
 using UserRepositoryServiceTests.Proxy;
 using UserRepositoryServiceApp.Models;
+using UserRepositoryServiceTests.Utils;
 
 namespace UserRepositoryServiceTests.UserInfoProviderServiceTests
 {
@@ -81,6 +82,8 @@ namespace UserRepositoryServiceTests.UserInfoProviderServiceTests
                 () => Assert.Null(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {userId} not found"))),
                 () => Assert.NotNull(userRelatedRecords.FirstOrDefault(e => e.Contains($"Attempt to retrieve User {userId}"))),
                 () => Assert.NotNull(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {userId} found"))));
+
+            TestRunConfiguration.UsersToCleanup.Add(userId);
         }
     }
 }

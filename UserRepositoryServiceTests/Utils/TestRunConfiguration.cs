@@ -1,14 +1,21 @@
 ﻿using System.Configuration;
+using System;
+using System.Collections.Generic;
 
 using RestSharp;
 
-namespace UserRepositoryServiceTests
+namespace UserRepositoryServiceTests.Utils
 {
     /// <summary>
     /// Configuration methods for test run.
     /// </summary>
     internal static class TestRunConfiguration
     {
+        /// <summary>
+        /// The users to cleanup
+        /// </summary>
+        internal static List<Guid> UsersToCleanup = new List<Guid>();
+
         /// <summary>
         /// The synchronize profile request API URL
         /// </summary>

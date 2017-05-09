@@ -6,7 +6,7 @@ using RestSharp;
 
 using UserRepositoryServiceApp.Models;
 
-namespace UserRepositoryServiceTests
+namespace UserRepositoryServiceTests.Utils
 {
     /// <summary>
     /// User Repository Utils methods that use Test API to manage test data.
@@ -42,6 +42,26 @@ namespace UserRepositoryServiceTests
         internal static SyncProfileRequest GetSyncProfileRequestByUserId(Guid userId)
         {
             return GetCurrentSyncProfileRequests().FirstOrDefault(item => item.UserId == userId);
+        }
+
+        /// <summary>
+        /// Deletes the synchronize profile request by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        internal static void DeleteSyncProfileRequestByUserId(Guid userId)
+        {
+            var client = TestRunConfiguration.GetTestApiRestClient();
+
+            var request = new RestRequest(Method.GET);
+
+            IRestResponse<List<SyncProfileRequest>> response = client.Execute<List<SyncProfileRequest>>(request);
+
+            var user = response.Data.FirstOrDefault(item => item.UserId == userId);
+            if (user != null)
+            {
+                request = new RestRequest($"/{user.UserId}", Method.DELETE);
+                client.Execute(request);
+            }
         }
 
         /// <summary>

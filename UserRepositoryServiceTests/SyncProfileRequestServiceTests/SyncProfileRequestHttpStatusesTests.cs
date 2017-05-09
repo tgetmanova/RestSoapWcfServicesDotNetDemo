@@ -6,12 +6,14 @@ using Xunit;
 using RestSharp;
 
 using UserRepositoryServiceApp.Models;
+using UserRepositoryServiceTests.Utils;
 
 namespace UserRepositoryServiceTests
 {
     /// <summary>
     /// Sync profile requests tests that verify HTTP statuses returned by service.
     /// </summary>
+    [Collection("Cleanup Test Data collection")]
     public class SyncProfileRequestHttpStatusesTests
     {   
         [Theory]
@@ -78,6 +80,8 @@ namespace UserRepositoryServiceTests
             IRestResponse<SyncProfileRequest> response = client.Execute<SyncProfileRequest>(request);
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+
+            TestRunConfiguration.UsersToCleanup.Add(expectedUserId);
         }
 
         [Theory]
@@ -147,6 +151,8 @@ namespace UserRepositoryServiceTests
             IRestResponse<SyncProfileRequest> response = client.Execute<SyncProfileRequest>(request);
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+
+            TestRunConfiguration.UsersToCleanup.Add(expectedUserId);
         }
         
         [Fact]
@@ -173,6 +179,8 @@ namespace UserRepositoryServiceTests
             IRestResponse<SyncProfileRequest> response = client.Execute<SyncProfileRequest>(request);
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+            TestRunConfiguration.UsersToCleanup.Add(userId);
         }
 
         [Fact]
@@ -206,6 +214,8 @@ namespace UserRepositoryServiceTests
             IRestResponse<SyncProfileRequest> response = client.Execute<SyncProfileRequest>(request);
 
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+
+            TestRunConfiguration.UsersToCleanup.Add(expectedUserId);
         }
     }
 }

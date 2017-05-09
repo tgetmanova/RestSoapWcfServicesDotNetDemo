@@ -6,12 +6,14 @@ using RestSharp;
 using Xunit;
 
 using UserRepositoryServiceApp.Models;
+using UserRepositoryServiceTests.Utils;
 
 namespace UserRepositoryServiceTests
 {
     /// <summary>
     /// Sync profile requests tests that verify logging logic of service.
     /// </summary>
+    [Collection("Cleanup Test Data collection")]
     public class SyncProfileRequestLoggingTests
     {
         [Theory]
@@ -92,6 +94,8 @@ namespace UserRepositoryServiceTests
             TestUtils.AggregateAssertions(
                 () => Assert.NotNull(userRelatedRecords.FirstOrDefault(e => e.Contains($"{updateRequest.CountryIsoCode} is incorrect ISO code"))),
                 () => Assert.Null(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {userId} has been modified successfully"))));
+
+            TestRunConfiguration.UsersToCleanup.Add(userId);
         }
 
         [Theory]
@@ -174,6 +178,8 @@ namespace UserRepositoryServiceTests
             TestUtils.AggregateAssertions(
                 () => Assert.NotNull(userRelatedRecords.FirstOrDefault(e => e.Contains($"{updateRequest.Locale} is incorrect locale format"))),
                 () => Assert.Null(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {userId} has been modified successfully"))));
+
+            TestRunConfiguration.UsersToCleanup.Add(userId);
         }
 
         [Theory]
@@ -208,6 +214,8 @@ namespace UserRepositoryServiceTests
                 () => Assert.Null(userRelatedRecords.FirstOrDefault(e => e.Contains($"The Sync Profile request is invalid:"))),
                 () => Assert.Null(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {userId} has been modified successfully"))),
                 () => Assert.NotNull(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {userId} has been created successfully"))));
+
+            TestRunConfiguration.UsersToCleanup.Add(userId);
         }
 
         [Theory]
@@ -250,6 +258,8 @@ namespace UserRepositoryServiceTests
             TestUtils.AggregateAssertions(
                 () => Assert.Null(userRelatedRecords.FirstOrDefault(e => e.Contains($"The Sync Profile request is invalid:"))),
                 () => Assert.NotNull(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {userId} has been modified successfully"))));
+
+            TestRunConfiguration.UsersToCleanup.Add(userId);
         }
     }
 }

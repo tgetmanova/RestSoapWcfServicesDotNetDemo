@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Linq;
 
 using Xunit;
 
 using RestSharp;
 
 using UserRepositoryServiceApp.Models;
+using UserRepositoryServiceTests.Utils;
 
 namespace UserRepositoryServiceTests
 {
     /// <summary>
     /// Sync profile requests tests that verify users' existence in repository and their properties.
     /// </summary>
+    [Collection("Cleanup Test Data collection")]
     public class SyncProfileRequestRepositoryTests
     {
         [Theory]
@@ -92,6 +93,8 @@ namespace UserRepositoryServiceTests
                 () => Assert.Equal(expectedExistingUser.AdvertisingOptIn, actualUser.AdvertisingOptIn),
                 () => Assert.Equal(expectedExistingUser.UserId, actualUser.UserId),
                 () => Assert.Equal(expectedExistingUser.DateModified, actualUser.DateModified));
+
+            TestRunConfiguration.UsersToCleanup.Add(expectedUserId);
         }
 
         [Theory]
@@ -176,6 +179,8 @@ namespace UserRepositoryServiceTests
                 () => Assert.Equal(expectedExistingUser.AdvertisingOptIn, actualUser.AdvertisingOptIn),
                 () => Assert.Equal(expectedExistingUser.UserId, actualUser.UserId),
                 () => Assert.Equal(expectedExistingUser.DateModified, actualUser.DateModified));
+
+            TestRunConfiguration.UsersToCleanup.Add(expectedUserId);
         }
 
         [Fact]
@@ -203,6 +208,8 @@ namespace UserRepositoryServiceTests
             var userCreated = UserRepositoryUtils.GetSyncProfileRequestByUserId(userId);
 
             Assert.NotNull(userCreated);
+
+            TestRunConfiguration.UsersToCleanup.Add(userId);
         }
 
         [Fact]
@@ -247,6 +254,8 @@ namespace UserRepositoryServiceTests
                    userUpdated.DateModified.ToUniversalTime(),
                    DateTime.Now.AddMinutes(-1).ToUniversalTime(),
                    DateTime.Now.ToUniversalTime())));
+
+            TestRunConfiguration.UsersToCleanup.Add(expectedUserId);
         }
 
         [Theory]
@@ -285,6 +294,8 @@ namespace UserRepositoryServiceTests
                     userCreated.DateModified.ToUniversalTime(), 
                     DateTime.Now.AddMinutes(-1).ToUniversalTime(), 
                     DateTime.Now.ToUniversalTime())));
+
+            TestRunConfiguration.UsersToCleanup.Add(userId);
         }
 
         [Theory]
@@ -332,6 +343,8 @@ namespace UserRepositoryServiceTests
                     userUpdated.DateModified.ToUniversalTime(),
                     DateTime.Now.AddMinutes(-1).ToUniversalTime(),
                     DateTime.Now.ToUniversalTime())));
+
+            TestRunConfiguration.UsersToCleanup.Add(expectedUserId);
         }
     }
 }

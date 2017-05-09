@@ -36,7 +36,7 @@ namespace UserRepositoryServiceApp.Services
             {
                 user = this.syncProfileRequestManager.GetSyncProfileRequestById(userId);
             }
-            catch (InvalidOperationException exception)
+            catch (InvalidOperationException)
             {
                 var userNotFound = new UserNotFoundFault
                 {

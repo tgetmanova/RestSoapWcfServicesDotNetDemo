@@ -5,6 +5,7 @@ using Xunit;
 
 using UserRepositoryServiceTests.Proxy;
 using UserRepositoryServiceApp.Models;
+using UserRepositoryServiceTests.Utils;
 
 namespace UserRepositoryServiceTests
 {
@@ -97,6 +98,8 @@ namespace UserRepositoryServiceTests
                  () => Assert.Equal(expectedNewlyCreatedUser.AdvertisingOptIn, userInfoRetrieved.AdvertisingOptIn),
                  () => Assert.Equal(expectedNewlyCreatedUser.UserId, userInfoRetrieved.UserId),
                  () => Assert.Equal(expectedNewlyCreatedUser.DateModified.ToUniversalTime(), userInfoRetrieved.DateModified.ToUniversalTime()));
+
+            TestRunConfiguration.UsersToCleanup.Add(userId);
         }
     }
 }
