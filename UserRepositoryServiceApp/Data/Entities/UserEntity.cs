@@ -20,7 +20,7 @@ namespace UserRepositoryServiceApp.Data.Entities
         /// <summary>
         /// Gets or sets the advertising opt in.
         /// </summary>
-        public bool AdvertisingOptIn { get; set; }
+        public bool? AdvertisingOptIn { get; set; }
 
         /// <summary>
         /// Gets or sets the country iso code.

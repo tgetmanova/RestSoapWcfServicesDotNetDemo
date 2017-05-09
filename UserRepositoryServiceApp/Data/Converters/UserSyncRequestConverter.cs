@@ -28,7 +28,7 @@ namespace UserRepositoryServiceApp.Data.Converters
             {
                 UserId = syncProfileRequest.UserId,
                 RequestId = syncProfileRequest.RequestId,
-                AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn.GetValueOrDefault(false),
+                AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn,
                 CountryIsoCode = syncProfileRequest.CountryIsoCode,
                 DateModified = syncProfileRequest.DateModified,
                 Locale = syncProfileRequest.Locale
@@ -75,7 +75,7 @@ namespace UserRepositoryServiceApp.Data.Converters
             return new UserInfo
             {
                 UserId = syncProfileRequest.UserId,
-                AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn.GetValueOrDefault(false),
+                AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn,
                 CountryIsoCode = syncProfileRequest.CountryIsoCode,
                 DateModified = syncProfileRequest.DateModified,
                 Locale = syncProfileRequest.Locale
