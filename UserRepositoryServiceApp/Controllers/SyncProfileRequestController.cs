@@ -26,25 +26,27 @@ namespace UserRepositoryService.Controllers
         
         public HttpResponseMessage Post([FromBody]SyncProfileRequest syncProfileRequest)
         {
+            var trimmedSyncProfileRequest = this.syncProfileRequestManager.TrimStringsInSyncProfileRequest(syncProfileRequest);
+
             try
             {
-                this.syncProfileRequestManager.ValidateSyncProfileRequest(syncProfileRequest);
+                this.syncProfileRequestManager.ValidateSyncProfileRequest(trimmedSyncProfileRequest);
             }
             catch(ArgumentException exception)
             {
-                ServiceLogger.Logger.Error($"User {syncProfileRequest.UserId}: {exception.Message}");
+                ServiceLogger.Logger.Error($"User {trimmedSyncProfileRequest.UserId}: {exception.Message}");
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
-            if (this.syncProfileRequestManager.DoesUserExistInRepository(syncProfileRequest.UserId))
+            if (this.syncProfileRequestManager.DoesUserExistInRepository(trimmedSyncProfileRequest.UserId))
             {
-                this.syncProfileRequestManager.UpdateSyncProfileRequest(syncProfileRequest);
-                ServiceLogger.Logger.Information($"User {syncProfileRequest.UserId} has been modified successfully");
+                this.syncProfileRequestManager.UpdateSyncProfileRequest(trimmedSyncProfileRequest);
+                ServiceLogger.Logger.Information($"User {trimmedSyncProfileRequest.UserId} has been modified successfully");
                 return new HttpResponseMessage(HttpStatusCode.NoContent);
             }
 
-            this.syncProfileRequestManager.CreateSyncProfileRequest(syncProfileRequest);
-            ServiceLogger.Logger.Information($"User {syncProfileRequest.UserId} has been created successfully");
+            this.syncProfileRequestManager.CreateSyncProfileRequest(trimmedSyncProfileRequest);
+            ServiceLogger.Logger.Information($"User {trimmedSyncProfileRequest.UserId} has been created successfully");
             return new HttpResponseMessage(HttpStatusCode.Created);
         }
     }

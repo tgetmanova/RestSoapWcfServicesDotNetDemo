@@ -91,7 +91,7 @@ namespace UserRepositoryServiceApp.Managers
             {
                 UserId = syncProfileRequest.UserId,
                 RequestId = Guid.NewGuid(),
-                Locale = syncProfileRequest.Locale.Trim(),
+                Locale = syncProfileRequest.Locale,
                 CountryIsoCode = syncProfileRequest.CountryIsoCode,
                 AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn,
                 DateModified = DateTime.UtcNow
@@ -102,18 +102,38 @@ namespace UserRepositoryServiceApp.Managers
             return syncProfileRequestToCreate;
         }
 
+        /// <summary>
+        /// Updates the synchronize profile request.
+        /// </summary>
+        /// <param name="syncProfileRequest">The synchronize profile request.</param>
         internal void UpdateSyncProfileRequest(SyncProfileRequest syncProfileRequest)
         {
             var syncProfileRequestToUpdate = new SyncProfileRequest
             {
                 UserId = syncProfileRequest.UserId,
                 RequestId = Guid.NewGuid(),
-                Locale = syncProfileRequest.Locale.Trim(),
+                Locale = syncProfileRequest.Locale,
                 CountryIsoCode = syncProfileRequest.CountryIsoCode,
                 AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn,
                 DateModified = DateTime.UtcNow
             };
             this.userRepository.UpdateUser(UserSyncRequestConverter.ToUserEntity(syncProfileRequestToUpdate));
+        }
+
+        /// <summary>
+        /// Trims the strings in synchronize profile request.
+        /// </summary>
+        /// <param name="syncProfileRequest">The synchronize profile request.</param>
+        /// <returns>Sync request with trimmed string propeties. </returns>
+        internal SyncProfileRequest TrimStringsInSyncProfileRequest(SyncProfileRequest syncProfileRequest)
+        {
+            return new SyncProfileRequest
+            {
+                UserId = syncProfileRequest.UserId,
+                Locale = syncProfileRequest.Locale.Trim(),
+                CountryIsoCode = syncProfileRequest.CountryIsoCode.Trim(),
+                AdvertisingOptIn = syncProfileRequest.AdvertisingOptIn
+            };
         }
 
         /// <summary>
@@ -127,20 +147,18 @@ namespace UserRepositoryServiceApp.Managers
 
             if (!this.IsCountryIsoCodeValid(request.CountryIsoCode))
             {
-                validations.Append($"{request.CountryIsoCode} is incorrect ISO code");
-                validations.AppendLine();
+                validations.Append($"{request.CountryIsoCode} is incorrect ISO code;");
             }
 
             if (!this.IsLocaleStringValid(request.Locale))
             {
-                validations.Append($"{request.Locale} is incorrect locale format");
-                validations.AppendLine();
+                validations.Append($"{request.Locale} is incorrect locale format;");
             }
 
             var validationsString = validations.ToString();
             if (!string.IsNullOrEmpty(validationsString))
             {
-                throw new ArgumentException($"The Sync Profile request is invalid: {Environment.NewLine} {validationsString}");
+                throw new ArgumentException($"The Sync Profile request is invalid: {validationsString}");
             }
         }
 
