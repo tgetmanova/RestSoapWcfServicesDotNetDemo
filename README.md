@@ -1,4 +1,4 @@
-# ksptask
+# REST and WCF SOAP service in .NET demo
 
 This solution contains project that hosts SyncProfileRequest service and UserInfoProvider WCF service in one console application (Microsoft.OWIN library is used).
 Also it contains TestApi service that can also be invoked: it is being used for test data management in functional tests.
