@@ -37,5 +37,10 @@ namespace UserRepositoryServiceApp
         {
             throw new NotImplementedException();
         }
+
+        public List<ContactEntity> GetContacts()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

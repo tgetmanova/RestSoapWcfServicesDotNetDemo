@@ -41,7 +41,7 @@ namespace UserRepositoryServiceApp.Data.Converters
         /// <param name="userEntity">The user entity.</param>
         /// <returns>Sync profile request. </returns>
         /// <exception cref="System.ArgumentNullException">userEntity - userEntity cannot be null</exception>
-        internal static SyncProfileRequest ToSyncProfileRequest(UserEntity userEntity)
+        internal static SyncProfileRequest ToSyncProfileRequest(UserEntity userEntity, ContactEntity contactEntity = null)
         {
             if (userEntity == null)
             {
@@ -55,7 +55,12 @@ namespace UserRepositoryServiceApp.Data.Converters
                 AdvertisingOptIn = userEntity.AdvertisingOptIn,
                 CountryIsoCode = userEntity.CountryIsoCode,
                 DateModified = userEntity.DateModified,
-                Locale = userEntity.Locale
+                Locale = userEntity.Locale,
+                Contact = new ContactInfo
+                {
+                    Email = contactEntity?.Email,
+                    PhoneNumber = contactEntity?.PhoneNumber
+                }
             };
         }
 

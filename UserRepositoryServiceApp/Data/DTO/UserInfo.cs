@@ -39,5 +39,11 @@ namespace UserRepositoryServiceApp.Data.DTO
         /// </summary>
         [DataMember]
         public string Locale { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Contact information.
+        /// </summary>
+        [DataMember]
+        public ContactInfo Contact { get; set; }
     }
 }

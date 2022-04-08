@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using UserRepositoryServiceApp.Data.Entities;
+using UserRepositoryServiceApp.Util;
 
 namespace UserRepositoryServiceApp
 {
@@ -46,6 +47,48 @@ namespace UserRepositoryServiceApp
                 }
             };
 
+        private static List<ContactEntity> contacts = new List<ContactEntity>
+        {
+            new ContactEntity
+            {
+                // TODO Create user + contact static initializer class
+                // and grab User/Contact repository level data from initializer
+                // so that contacts have knowledge what user they are associated with
+                UserId = new Guid("14f82c78-390f-4a90-bd99-dbd24d9c968d"),
+                ContactId = Guid.NewGuid(),
+                Email = RandomUtils.GetRandomEmailAddress(),
+                PhoneNumber = RandomUtils.GetRandomStringOfNumbers(10)
+            },
+            new ContactEntity
+            {
+                UserId = Guid.NewGuid(),
+                ContactId = Guid.NewGuid(),
+                Email = RandomUtils.GetRandomEmailAddress(),
+                PhoneNumber = RandomUtils.GetRandomStringOfNumbers(10)
+            },
+            new ContactEntity
+            {
+                UserId = Guid.NewGuid(),
+                ContactId = Guid.NewGuid(),
+                Email = RandomUtils.GetRandomEmailAddress(),
+                PhoneNumber = RandomUtils.GetRandomStringOfNumbers(10)
+            },
+            new ContactEntity
+            {
+                UserId = Guid.NewGuid(),
+                ContactId = Guid.NewGuid(),
+                Email = RandomUtils.GetRandomEmailAddress(),
+                PhoneNumber = RandomUtils.GetRandomStringOfNumbers(10)
+            },
+            new ContactEntity
+            {
+                UserId = Guid.NewGuid(),
+                ContactId = Guid.NewGuid(),
+                Email = RandomUtils.GetRandomEmailAddress(),
+                PhoneNumber = RandomUtils.GetRandomStringOfNumbers(10)
+            },
+        };
+
         /// <inheritdoc />
         public IEnumerable<UserEntity> GetUsers()
         {
@@ -80,6 +123,11 @@ namespace UserRepositoryServiceApp
             }
 
             users[users.IndexOf(user)] = userEntity;
+        }
+
+        public List<ContactEntity> GetContacts()
+        {
+            return contacts;
         }
     }
 }

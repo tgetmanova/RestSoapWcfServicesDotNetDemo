@@ -46,7 +46,7 @@ namespace UserRepositoryServiceTests
                 () => this.providerServiceClient.GetUserInfo(randomGuid));
 
             TestUtils.AggregateAssertions(
-                () => Assert.Equal("Not found is repository", exception.Detail.Reason),
+                () => Assert.Equal("User is not found is repository", exception.Detail.Reason),
                 () => Assert.Equal(randomGuid, exception.Detail.Id));
         }
 

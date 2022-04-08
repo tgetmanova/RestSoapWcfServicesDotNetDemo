@@ -1,10 +1,10 @@
 ﻿@echo off
 
 if "%ProgramFiles(x86)%"=="" GOTO x86
-set FRAMEWORK_WSDL_GENERATOR="%ProgramFiles(x86)%\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\svcutil.exe"
+set FRAMEWORK_WSDL_GENERATOR="%ProgramFiles(x86)%\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\svcutil.exe"
 goto frameworkset
 :x86
-set FRAMEWORK_WSDL_GENERATOR="%ProgramFiles%\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\svcutil.exe"
+set FRAMEWORK_WSDL_GENERATOR="%ProgramFiles%\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\svcutil.exe"
 :frameworkset
 
 set WORKING_FOLDER="."

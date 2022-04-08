@@ -39,6 +39,11 @@ namespace UserRepositoryService.Controllers
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
+            if (syncProfileRequest.UserId == default(Guid))
+            {
+                trimmedSyncProfileRequest.UserId = Guid.NewGuid();
+            }
+
             if (this.syncProfileRequestManager.DoesUserExistInRepository(trimmedSyncProfileRequest.UserId))
             {
                 this.syncProfileRequestManager.UpdateSyncProfileRequest(trimmedSyncProfileRequest);

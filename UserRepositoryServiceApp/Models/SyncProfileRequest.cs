@@ -1,4 +1,5 @@
 ﻿using System;
+using UserRepositoryServiceApp.Data.DTO;
 
 namespace UserRepositoryServiceApp.Models
 {
@@ -27,5 +28,10 @@ namespace UserRepositoryServiceApp.Models
         /// Gets or sets the locale.
         /// </summary>
         public string Locale { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Contact Info.
+        /// </summary>
+        public ContactInfo Contact { get; set; }
     }
 }

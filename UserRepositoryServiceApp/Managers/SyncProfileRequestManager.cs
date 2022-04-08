@@ -60,14 +60,17 @@ namespace UserRepositoryServiceApp.Managers
         internal SyncProfileRequest GetSyncProfileRequestById(Guid Id)
         {
             var users = this.userRepository.GetUsers();
+            var contacts = this.userRepository.GetContacts();
+
             var targetUser = users.FirstOrDefault(i => i.UserId == Id);
+            var targetContact = contacts.FirstOrDefault(i => i.UserId == Id);
 
             if (targetUser == null)
             {
-                throw new InvalidOperationException($"Not found {Id}");
+                throw new InvalidOperationException($"User is not found {Id}");
             }
 
-            return UserSyncRequestConverter.ToSyncProfileRequest(targetUser);
+            return UserSyncRequestConverter.ToSyncProfileRequest(targetUser, targetContact);
         }
 
         /// <summary>

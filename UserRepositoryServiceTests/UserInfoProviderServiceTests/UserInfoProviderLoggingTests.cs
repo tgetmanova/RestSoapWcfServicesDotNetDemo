@@ -51,9 +51,9 @@ namespace UserRepositoryServiceTests.UserInfoProviderServiceTests
             Assert.True(userRelatedRecords.Any(), "Cannot find any related entries in the log");
 
             TestUtils.AggregateAssertions(
-                () => Assert.NotNull(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {randomGuid} not found"))),
+                () => Assert.NotNull(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {randomGuid} is not found"))),
                 () => Assert.NotNull(userRelatedRecords.FirstOrDefault(e => e.Contains($"Attempt to retrieve User {randomGuid}"))),
-                () => Assert.Null(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {randomGuid} found"))));
+                () => Assert.Null(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {randomGuid} is found"))));
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace UserRepositoryServiceTests.UserInfoProviderServiceTests
             TestUtils.AggregateAssertions(
                 () => Assert.Null(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {userId} not found"))),
                 () => Assert.NotNull(userRelatedRecords.FirstOrDefault(e => e.Contains($"Attempt to retrieve User {userId}"))),
-                () => Assert.NotNull(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {userId} found"))));
+                () => Assert.NotNull(userRelatedRecords.FirstOrDefault(e => e.Contains($"User {userId} is found"))));
 
             TestRunConfiguration.UsersToCleanup.Add(userId);
         }

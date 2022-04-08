@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UserRepositoryServiceApp</RootNamespace>
     <AssemblyName>UserRepositoryServiceApp</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -93,15 +94,20 @@
     <Compile Include="Controllers\SyncProfileRequestController.cs" />
     <Compile Include="AppStartup.cs" />
     <Compile Include="Data\Converters\UserSyncRequestConverter.cs" />
+    <Compile Include="Data\DTO\ContactInfo.cs" />
     <Compile Include="Data\DTO\UserInfo.cs" />
+    <Compile Include="Data\Entities\ContactEntity.cs" />
     <Compile Include="Data\Entities\UserEntity.cs" />
     <Compile Include="Faults\UserNotFoundFault.cs" />
     <Compile Include="Logging\ServiceLogger.cs" />
     <Compile Include="Managers\SyncProfileRequestManager.cs" />
     <Compile Include="Models\MyAccountRequestBase.cs" />
+    <Compile Include="Models\PagingParams.cs" />
     <Compile Include="Models\SyncProfileRequest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ContactService.cs" />
+    <Compile Include="Services\IContactService.cs" />
     <Compile Include="Services\IUserInfoProviderService.cs" />
     <Compile Include="Services\UserInfoProviderService.cs" />
     <Compile Include="UserRepositoryFactory\InProcessUserRepository.cs" />
@@ -109,6 +115,7 @@
     <Compile Include="UserRepositoryFactory\IUserRepository.cs" />
     <Compile Include="UserRepositoryFactory\DataBaseUserRepository.cs" />
     <Compile Include="UserRepositoryFactory\UserRepositoryFactory.cs" />
+    <Compile Include="Util\RandomUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

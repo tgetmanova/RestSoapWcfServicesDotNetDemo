@@ -30,5 +30,10 @@ namespace UserRepositoryServiceApp
         /// Updates the user.
         /// </summary>
         void UpdateUser(UserEntity userEntity);
+
+        /// <summary>
+        /// Gets the contacts.
+        /// </summary>
+        List<ContactEntity> GetContacts();
     }
 }

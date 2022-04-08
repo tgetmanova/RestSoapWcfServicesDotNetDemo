@@ -1,40 +1,38 @@
 ﻿using System;
 using System.ServiceModel;
-using System.Collections.Generic;
 
 using UserRepositoryServiceApp.Faults;
 using UserRepositoryServiceApp.Data.DTO;
-using UserRepositoryServiceApp.Models;
 
 namespace UserRepositoryServiceApp.Services
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IUserManagementService" in both code and config file together.
     [ServiceContract]
-    public interface IUserInfoProviderService
+    public interface IContactService
     {
         /// <summary>
         /// Gets the user information.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <returns>User Information. </returns>
+        /// <returns>User Contact Information. </returns>
         [OperationContract]
         [FaultContract(typeof(UserNotFoundFault))]
-        UserInfo GetUserInfo(Guid userId);
+        ContactInfo GetUserContacts(Guid userId);
 
         /// <summary>
-        /// Gets the user collection.
+        /// Updates the user email.
         /// </summary>
-        /// <param name="pagingParams">The pagig parameters.</param>
-        /// <returns>Users collection.</returns>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="email">The user email to update.</param>
         [OperationContract]
-        IList<UserInfo> GetUserInfoList(PagingParams pagingParams);
+        void UpdateUserEmail(Guid userId, string email);
 
         /// <summary>
-        /// Updates the user information.
+        /// Updates the user phoneNumber.
         /// </summary>
-        /// <param name="user">The user information.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="phoneNumber">The user phoneNumber to update.</param>
         [OperationContract]
-        [FaultContract(typeof(UserNotFoundFault))]
-        void UpdateUserInfo(UserInfo user);
+        void UpdateUserPhoneNumber(Guid userId, string phoneNumber);
     }
 }

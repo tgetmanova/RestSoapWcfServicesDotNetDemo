@@ -18,14 +18,22 @@ namespace UserRepositoryServiceApp
         static void Main(string[] args)
         {
             using (WebApp.Start<AppStartup>(BaseAddress))
-            using (ServiceHost host = new ServiceHost(typeof(UserInfoProviderService), new Uri($"{BaseAddress}UserInfoProviderService")))
+                // TODO host inside single service interface
+            using (ServiceHost host = new ServiceHost(
+                typeof(UserInfoProviderService),
+                new Uri($"{BaseAddress}UserInfoProviderService")))   
+            using (ServiceHost anotherHost = new ServiceHost(
+                typeof(ContactService),
+                new Uri($"{BaseAddress}ContactService")))
             {
                 host.Open();
+                anotherHost.Open();
 
                 Console.WriteLine($"Services have been launched at {BaseAddress}. Press any key to exit");
                 Console.ReadKey();
 
                 host.Close();
+                anotherHost.Close();
             }
         } 
     }
