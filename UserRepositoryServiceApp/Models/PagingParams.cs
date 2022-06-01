@@ -1,43 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using static UserRepositoryServiceApp.Models.FilterRule;
-using static UserRepositoryServiceApp.Models.OrderRule;
-
-namespace UserRepositoryServiceApp.Models
+﻿namespace UserRepositoryServiceApp.Models
 {
-    // TODO Design and implement Paging
     public class PagingParams
     {
-        public int? PageSize { get; set; }   
+        public int? PageSize { get; set; }
         public int? PageNumber { get; set; }
         public OrderBy? OrderBy { get; set; }
-        public FilterBy? FilterBy { get; set; }
+        public Filter Filter { get; set; }
     }
 
-    public class OrderRule
+    public enum OrderBy
     {
-        internal IEnumerable<T> Order<T, Tkey>(Func<T, Tkey> orderCriteria, IList<T> collection)
-        {
-            return collection.OrderBy(orderCriteria);
-        }
-
-        public enum OrderBy {
-            DateModified,
-            Locale
-        }
+        DateModified,
+        Locale
     }
 
-    public class FilterRule
+    public class Filter
     {
-        public IEnumerable<T> Filter<T, Tkey>(Func<T, bool> filterCriteria, IList<T> collection)
-        {
-            return collection.Where(filterCriteria);
-        }
+        public FilterBy FilterBy { get; set; }  
+        public string FilterValue { get; set; }  
+    }
 
-        public enum FilterBy {
-            AdvertisingOptIn,
-            CountryIsoCode
-        }
+    public enum FilterBy
+    {
+        AdvertisingOptIn,
+        CountryIsoCode
     }
 }

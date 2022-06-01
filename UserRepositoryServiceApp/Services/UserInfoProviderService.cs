@@ -63,34 +63,49 @@ namespace UserRepositoryServiceApp.Services
 
         public IList<UserInfo> GetUserInfoList(PagingParams pagingParams)
         {
-            var resultList = syncProfileRequestManager.GetSyncProfileRequests()
-                .Select(u => UserSyncRequestConverter.ToUserInfo(u));
+            var allUsers = syncProfileRequestManager.GetSyncProfileRequests()
+                .Select(u => UserSyncRequestConverter.ToUserInfo(u))
+                .ToList();
 
             if (pagingParams == null)
             {
-                return resultList.ToList();
+                return allUsers.ToList();
             }
 
-            //TODO implement paging logic
+            IEnumerable<UserInfo> resultUsers = allUsers;
+
             if (pagingParams.OrderBy != null)
             {
+                switch (pagingParams.OrderBy)
+                {
+                    case OrderBy.DateModified:
+                        resultUsers = resultUsers.OrderBy(u => u.DateModified); break; 
+                    case OrderBy.Locale:
+                        resultUsers = resultUsers.OrderBy(u => u.Locale); break;
+                }
             }
 
-            if (pagingParams.FilterBy != null)
+            if (pagingParams.Filter != null)
             {
+                switch (pagingParams.Filter.FilterBy)
+                {
+                    case FilterBy.AdvertisingOptIn:
+                        resultUsers = resultUsers.Where(u => u.AdvertisingOptIn.ToString().ToLower() == pagingParams.Filter.FilterValue.ToLower()); break;
+                    case FilterBy.CountryIsoCode:
+                        resultUsers = resultUsers.Where(u => u.CountryIsoCode.ToString().ToLower() == pagingParams.Filter.FilterValue.ToLower()); break;
+                }
             }
 
-            if (pagingParams.PageSize != null)
+            if (pagingParams.PageSize != null || (pagingParams.PageNumber != null))
             {
-                resultList = resultList.Take(pagingParams.PageSize.GetValueOrDefault());
+                var pageSize = pagingParams.PageSize ?? 10;
+                var pageNumber = pagingParams.PageNumber ?? 1;
+                var itemsNumberToSkip = (pageNumber - 1) * pageSize;
+
+                resultUsers = resultUsers.Skip(itemsNumberToSkip).Take(pageSize);
             }
 
-            if (pagingParams.PageNumber != null)
-            {
-                resultList = resultList.Take(pagingParams.PageSize.GetValueOrDefault());
-            }
-
-            return resultList.ToList();
+            return resultUsers.ToList();
         }
 
         public void UpdateUserInfo(UserInfo updatedUserInfo)
