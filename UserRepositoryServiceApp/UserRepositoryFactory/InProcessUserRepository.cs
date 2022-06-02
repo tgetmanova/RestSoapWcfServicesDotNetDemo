@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 using UserRepositoryServiceApp.Data.Entities;
@@ -13,81 +14,51 @@ namespace UserRepositoryServiceApp
     /// <seealso cref="UserRepositoryServiceApp.UserRepositoryFactory.IUserRepository" />
     internal class InProcessUserRepository : IUserRepository
     {
-        /// <summary>
-        /// The users
-        /// </summary>
-        private static IList<UserEntity> users = new List<UserEntity>
-            {
-                new UserEntity
-                {
-                    AdvertisingOptIn = true,
-                    CountryIsoCode = "RU",
-                    DateModified = DateTime.Now.AddDays(-2),
-                    RequestId = Guid.NewGuid(),
-                    Locale = "RU",
-                    UserId = new Guid("8c46ada1-ac9c-4c0e-b1f6-265fa30454c0")
-                },
-                 new UserEntity
-                {
-                    AdvertisingOptIn = false,
-                    CountryIsoCode = "HU",
-                    DateModified = DateTime.Now.AddMonths(-1),
-                    RequestId = Guid.NewGuid(),
-                    Locale = "HU",
-                    UserId = new Guid("14f82c78-390f-4a90-bd99-dbd24d9c968d")
-                },
-                   new UserEntity
-                {
-                    AdvertisingOptIn = false,
-                    CountryIsoCode = "ES",
-                    DateModified = DateTime.Now.AddMinutes(-45),
-                    RequestId = Guid.NewGuid(),
-                    Locale = "ES-ES",
-                    UserId = new Guid("0580769c-e4b0-4f98-8ca9-eb598333ec06")
-                }
-            };
+        private static CultureInfo[] ValidLocales = CultureInfo.GetCultures(CultureTypes.AllCultures);
 
-        private static List<ContactEntity> contacts = new List<ContactEntity>
+        private static List<UserEntity> users = Enumerable
+            .Range(1, RandomUtils.GetRandomInt(1, 25))
+            .Select(i => GenerateRandomUserEntity())
+            .ToList();
+
+        private static List<ContactEntity> contacts = InitContactsForUsers(users);
+
+        private static List<ContactEntity> InitContactsForUsers (List<UserEntity> users)
         {
-            new ContactEntity
+            var contacts = new List<ContactEntity>();
+            users.ForEach(user =>
             {
-                // TODO Create user + contact static initializer class
-                // and grab User/Contact repository level data from initializer
-                // so that contacts have knowledge what user they are associated with
-                UserId = new Guid("14f82c78-390f-4a90-bd99-dbd24d9c968d"),
+                if (RandomUtils.GetRandomBool()) return;
+                contacts.Add(GenerateRandomContactEntity(user.UserId));
+            });
+            return contacts;
+        }
+
+        private static UserEntity GenerateRandomUserEntity()
+        {
+            var randomCultureInfo = RandomUtils.GetRandomElement(ValidLocales);
+
+            return new UserEntity
+            {
+                AdvertisingOptIn = RandomUtils.GetRandomBool(),
+                CountryIsoCode = randomCultureInfo.TwoLetterISOLanguageName,
+                DateModified = DateTime.Now.AddDays(RandomUtils.GetRandomInt(-1000, -1)),
+                RequestId = Guid.NewGuid(),
+                Locale = randomCultureInfo.Name,
+                UserId = Guid.NewGuid()
+            };
+        }
+
+        private static ContactEntity GenerateRandomContactEntity(Guid userId)
+        {
+            return new ContactEntity
+            {
+                UserId = userId,
                 ContactId = Guid.NewGuid(),
                 Email = RandomUtils.GetRandomEmailAddress(),
                 PhoneNumber = RandomUtils.GetRandomStringOfNumbers(10)
-            },
-            new ContactEntity
-            {
-                UserId = Guid.NewGuid(),
-                ContactId = Guid.NewGuid(),
-                Email = RandomUtils.GetRandomEmailAddress(),
-                PhoneNumber = RandomUtils.GetRandomStringOfNumbers(10)
-            },
-            new ContactEntity
-            {
-                UserId = Guid.NewGuid(),
-                ContactId = Guid.NewGuid(),
-                Email = RandomUtils.GetRandomEmailAddress(),
-                PhoneNumber = RandomUtils.GetRandomStringOfNumbers(10)
-            },
-            new ContactEntity
-            {
-                UserId = Guid.NewGuid(),
-                ContactId = Guid.NewGuid(),
-                Email = RandomUtils.GetRandomEmailAddress(),
-                PhoneNumber = RandomUtils.GetRandomStringOfNumbers(10)
-            },
-            new ContactEntity
-            {
-                UserId = Guid.NewGuid(),
-                ContactId = Guid.NewGuid(),
-                Email = RandomUtils.GetRandomEmailAddress(),
-                PhoneNumber = RandomUtils.GetRandomStringOfNumbers(10)
-            },
-        };
+            };
+        }
 
         /// <inheritdoc />
         public IEnumerable<UserEntity> GetUsers()
